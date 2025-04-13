@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: locust-worker
+  labels:
+    name: locust-worker
+spec:
+  replicas: 4
+  selector:
+    matchLabels:
+      app: locust-worker
+  template:
+    metadata:
+      labels:
+        app: locust-worker
+    spec:
+      containers:
+        - name: locust-worker
+          image: locustio/locust
+          env:
+            - name: LOCUST_MODE_WORKER
+              value: 'true'
+            - name: LOCUST_MASTER_NODE_HOST
+              value: locust-master
+            - name: LOCUST_LOCUSTFILE
+              value: '/home/locust/locustfile.py'
+          volumeMounts:
+          - name: locust
+            mountPath: "/home/locust"
+            readOnly: true
+      volumes:
+      - name: locust
+        configMap:
+          name: locust
