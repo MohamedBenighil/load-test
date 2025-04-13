@@ -29,8 +29,8 @@ spec:
     - port: 8089
       targetPort: loc-master-web
       protocol: TCP
-#      name: loc-master-web
-#      nodePort: 30627
+  #      name: loc-master-web
+  #      nodePort: 30627
   selector:
     app: locust-master
-#  type: LoadBalancer
+    type: LoadBalancer
