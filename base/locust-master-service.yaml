@@ -33,4 +33,3 @@ spec:
   #      nodePort: 30627
   selector:
     app: locust-master
-  type: clusterIP
