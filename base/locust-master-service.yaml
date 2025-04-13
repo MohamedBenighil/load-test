@@ -26,11 +26,11 @@ metadata:
     app: locust-master
 spec:
   ports:
-    - port: 80
+    - port: 8089
       targetPort: loc-master-web
       protocol: TCP
   #      name: loc-master-web
   #      nodePort: 30627
   selector:
     app: locust-master
-  type: clusterIP
+  type: LoadBalancer
