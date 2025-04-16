@@ -5,7 +5,7 @@ metadata:
   labels:
     name: locust-worker
 spec:
-  replicas: 4
+  replicas: 5
   selector:
     matchLabels:
       app: locust-worker
@@ -19,16 +19,16 @@ spec:
           image: locustio/locust
           env:
             - name: LOCUST_MODE_WORKER
-              value: 'true'
+              value: "true"
             - name: LOCUST_MASTER_NODE_HOST
               value: locust-master
             - name: LOCUST_LOCUSTFILE
-              value: '/home/locust/locustfile.py'
+              value: "/home/locust/locustfile.py"
           volumeMounts:
-          - name: locust
-            mountPath: "/home/locust"
-            readOnly: true
+            - name: locust
+              mountPath: "/home/locust"
+              readOnly: true
       volumes:
-      - name: locust
-        configMap:
-          name: locust
+        - name: locust
+          configMap:
+            name: locust
