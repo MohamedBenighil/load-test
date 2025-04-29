@@ -6,6 +6,6 @@ resources:
   - locust-master-deployment.yaml
   - locust-master-service.yaml
   - locust-worker-deployment.yaml
-# - ingress.yaml
+  - ingress.yaml
 configMapGenerator:
   - name: locust
