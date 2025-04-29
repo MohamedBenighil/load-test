@@ -2,8 +2,8 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: ingress-ssl
-  annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /
+  # annotations:
+  #   nginx.ingress.kubernetes.io/rewrite-target: /
   #   kubernetes.io/ingress.class: "nginx"
   #   cert-manager.io/cluster-issuer: letsencrypt # to delete
   #=======================================
@@ -31,7 +31,7 @@ spec:
               service:
                 name: locust-master-ui
                 port:
-                  number: 8089
+                  number: 80
   # tls:
   # - hosts:
   #   - locust.mohamed-benighil.com  # to replace
