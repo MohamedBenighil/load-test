@@ -31,7 +31,7 @@ spec:
               service:
                 name: locust-master-ui
                 port:
-                  number: 80
+                  number: 8089
   # tls:
   # - hosts:
   #   - locust.mohamed-benighil.com  # to replace
