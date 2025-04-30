@@ -28,7 +28,7 @@ spec:
       http:
         paths:
           - path: /locust(/|$)(.*)
-            pathType: Prefix
+            ImplementationSpecific: Prefix
             backend:
               service:
                 name: locust-master-ui
