@@ -3,7 +3,9 @@ kind: Ingress
 metadata:
   name: ingress-ssl
   annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+    nginx.ingress.kubernetes.io/use-regex: "true"
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
   #   kubernetes.io/ingress.class: "nginx"
   #   cert-manager.io/cluster-issuer: letsencrypt # to delete
   #=======================================
@@ -25,7 +27,7 @@ spec:
     - host: benighil.westeurope.cloudapp.azure.com # to replace
       http:
         paths:
-          - path: /locust
+          - path: /locust(/|$)(.*)
             pathType: Prefix
             backend:
               service:
