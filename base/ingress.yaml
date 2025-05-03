@@ -7,15 +7,35 @@ metadata:
     nginx.ingress.kubernetes.io/use-regex: "true"
     # nginx.ingress.kubernetes.io/rewrite-target: /$1
     cert-manager.io/cluster-issuer: letsencrypt # it should be the same as the one in the clusterissuer.yaml
+    # nginx.ingress.kubernetes.io/auth-url: "http://oauth2-proxy.oauth2.svc.cluster.local/oauth2/auth"
+    # # nginx.ingress.kubernetes.io/auth-signin: "https://$host/oauth2/start?rd=$escaped_request_uri"
+    # # nginx.ingress.kubernetes.io/auth-signin: "https://benighil.westeurope.cloudapp.azure.com/oauth2/start?rd=https%3A%2F%2F$host$request_uri"
+    # nginx.ingress.kubernetes.io/auth-signin: "http://benighil.westeurope.cloudapp.azure.com/oauth2/start?rd=$request_uri"
+    # nginx.ingress.kubernetes.io/auth-signin: "https://$host/oauth2/start?rd=$escaped_request_uri"
+    # nginx.ingress.kubernetes.io/auth-url: http://oauth2-proxy.oauth2.svc.cluster.local/oauth2/auth
+    # cache > noflood
+    #
+
+    # Ajoutez ca :) pour déléguer l'authentification et l'autorisation le reste reste identique
+    nginx.ingress.kubernetes.io/auth-url: "https://auth.mohamed-benighil.online/oauth2/auth"
+    nginx.ingress.kubernetes.io/auth-signin: "https://auth.mohamed-benighil.online/oauth2/start?rd=https://$host$request_uri"
+    nginx.ingress.kubernetes.io/auth-response-headers: "x-auth-request-user, x-auth-request-email, x-auth-request-access-token"
+
+    # nginx.ingress.kubernetes.io/auth-url: "https://auth.mohamed-benighil.online/oauth2/auth"
+
+    # nginx.ingress.kubernetes.io/auth-signin: "https://auth.mohamed-benighil.online/oauth2/start?rd=$escaped_request_uri"
+
+    # nginx.ingress.kubernetes.io/auth-url: "https://auth.mohamed-benighil.online/oauth2/auth"
+    # nginx.ingress.kubernetes.io/auth-signin: "https://auth.mohamed-benighil.online/oauth2/start?rd=https://auth.mohamed-benighil.online/oauth2/callback"
 
 spec:
   ingressClassName: nginx
   tls:
     - hosts:
-        - benighil.westeurope.cloudapp.azure.com
+        - locust.mohamed-benighil.online
       secretName: locust-tls
   rules:
-    - host: benighil.westeurope.cloudapp.azure.com
+    - host: locust.mohamed-benighil.online
       http:
         paths:
           - path: /
