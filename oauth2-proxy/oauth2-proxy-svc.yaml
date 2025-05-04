@@ -1,0 +1,17 @@
+# oauth2-proxy-svc
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    application: oauth2-proxy
+  name: oauth2-proxy-svc
+
+spec:
+  ports:
+    - name: http
+      port: 4180
+      protocol: TCP
+      targetPort: 4180
+  selector:
+    application: oauth2-proxy

@@ -1,0 +1,68 @@
+# oauth2-proxy-deploy.yaml
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    application: oauth2-proxy
+  name: oauth2-proxy-deployment
+
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      application: oauth2-proxy
+  template:
+    metadata:
+      labels:
+        application: oauth2-proxy
+    spec:
+      containers:
+        # - --pass-access-token=true
+        # - --cookie-name=_proxycookie
+        # pour azure --session-cookie-minimal  et
+        - args:
+            - --provider=azure
+            - --azure-tenant=b399389b-8b5a-4a01-9b18-cdf5aca1bd65
+            - --cookie-domain=".mohamed-benighil.online"
+            - --email-domain=*
+            - --http-address=0.0.0.0:4180
+            - --oidc-issuer-url=https://login.microsoftonline.com/b399389b-8b5a-4a01-9b18-cdf5aca1bd65/v2.0
+            - --whitelist-domain=.mohamed-benighil.online
+            - --skip-provider-button=true
+            - --upstream=file:///dev/null
+            #- --set-authorization-header=true
+            # - --custom-sign-in-logo="https://sdmntprukwest.oaiusercontent.com/files/00000000-cb90-6243-977d-c4fca8c6f691/raw?se=2025-05-04T20%3A49%3A17Z&sp=r&sv=2024-08-04&sr=b&scid=0437c1c0-d9ab-500f-b693-f644e0488b8e&skoid=06e05d6f-bdd9-4a88-a7ec-2c0a779a08ca&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2025-05-04T08%3A18%3A47Z&ske=2025-05-05T08%3A18%3A47Z&sks=b&skv=2024-08-04&sig=g0ZqkuCpMAg%2Bm23RheH49GLFPUEhCurdbcEucJsimqE%3D"
+            - --session-cookie-minimal=true
+            - --allowed-group=c15965ef-292a-4d95-bb21-fe48e0f55562
+          name: oauth2-proxy
+          image: quay.io/oauth2-proxy/oauth2-proxy:v7.9.0
+          imagePullPolicy: Always
+          env:
+            - name: OAUTH2_PROXY_CLIENT_ID
+              valueFrom:
+                secretKeyRef:
+                  name: oauth2-proxy-secrets
+                  key: oauth2_proxy_client_id
+            - name: OAUTH2_PROXY_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: oauth2-proxy-secrets
+                  key: oauth2_proxy_client_secret
+            - name: OAUTH2_PROXY_COOKIE_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: oauth2-proxy-secrets
+                  key: oauth2_proxy_cookie_secret
+            - name: OAUTH2_PROXY_AZURE_GRAPH_GROUP_FIELD
+              value: "id"
+          ports:
+            - containerPort: 4180
+              protocol: TCP
+          resources:
+            limits:
+              cpu: 100m
+              memory: 128Mi
+            requests:
+              cpu: 100m
+              memory: 128Mi
